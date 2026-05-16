@@ -17,12 +17,12 @@ SOURCE crud_queries.sql;
 
 #### screenshots
 
-![screeenshot/schema diagram](diagram.png)
-![screenshot/mysql](1.png)
-![screenshot/mysql](2.png)
-![screenshot/mysql](3.png)
-![screenshot/mysql](4.png)
-![screenshot/mysql](5.png)
-![screenshot/mysql](6.png)
-![screenshot/mysql](7.png)
-![screenshot/mysql](8.png)
+![schema diagram](screenshot/diagram.png)
+![mysql](screenshot/1.png)
+![mysql](screenshot/2.png)
+![mysql](screenshot/3.png)
+![mysql](screenshot/4.png)
+![mysql](screenshot/5.png)
+![mysql](screenshot/6.png)
+![mysql](screenshot/7.png)
+![mysql](screenshot/8.png)
