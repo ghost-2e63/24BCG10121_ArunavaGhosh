@@ -1,0 +1,48 @@
+CREATE DATABASE VIT_Campus;
+
+USE VIT_Campus;
+
+CREATE TABLE CSE (
+    SID INT(8),
+    Student_Name VARCHAR(50),
+    Marks INT
+);
+
+INSERT INTO CSE VALUES
+(10010001, 'Rahul Sharma', 88),
+(10010002, 'Priya Verma', 91),
+(10010003, 'Amit Kumar', 76),
+(10010004, 'Sneha Reddy', 84),
+(10010005, 'Arjun Mehta', 95);
+
+SELECT * FROM CSE;
+
+CREATE TABLE Mechanical (
+    SID INT(8),
+    Student_Name VARCHAR(50),
+    Marks INT
+);
+
+INSERT INTO Mechanical VALUES
+(20010001, 'Vikram Singh', 79),
+(20010002, 'Neha Joshi', 85),
+(20010003, 'Rohan Das', 73),
+(20010004, 'Kiran Patel', 89),
+(20010005, 'Anjali Nair', 92);
+
+SELECT * FROM Mechanical;
+
+CREATE TABLE EEE (
+    SID INT(8),
+    Student_Name VARCHAR(50),
+    Marks INT
+);
+
+INSERT INTO EEE VALUES
+(30010001, 'Suresh Babu', 81),
+(30010002, 'Pooja Iyer', 87),
+(30010003, 'Manoj Gupta', 74),
+(30010004, 'Divya Rao', 90),
+(30010005, 'Harish Kumar', 78);
+
+SELECT * FROM EEE;
