@@ -1,0 +1,73 @@
+SHOW TABLES FROM vit_db;
+
+USE vit_db;
+
+SELECT * FROM employee;
+
+SELECT emp_name, division, income
+FROM employee
+WHERE division = 'Finance'
+   OR income >= 120000;
+
+SELECT emp_id, emp_name, division, income
+FROM employee
+WHERE emp_id NOT IN (2, 5, 9);
+
+SELECT * FROM employee
+WHERE income NOT BETWEEN 150000 AND 400000;
+
+SELECT * FROM employee
+WHERE income BETWEEN 150000 AND 400000;
+
+SELECT * FROM employee
+WHERE income BETWEEN 120000 AND 600000
+  AND division NOT IN ('Sales', 'Finance');
+
+SELECT * FROM employee
+WHERE emp_name LIKE '_a__i%';
+
+SELECT * FROM employee
+WHERE emp_name LIKE '%n';
+
+SELECT * FROM employee
+WHERE emp_name LIKE 'r____';
+
+SELECT SUM(income) FROM employee;
+
+SELECT * FROM vit_db.employee
+WHERE DIVISION = 'Finance'
+  AND INCOME < 900000
+  AND EMP_NAME NOT LIKE '%E%';
+
+SELECT DISTINCT(division) FROM employee;
+
+SELECT emp_id,
+       emp_name,
+       CASE
+           WHEN income > 400000 THEN 'High Class'
+           WHEN income >= 150000 AND income < 400000 THEN 'Average Class'
+           ELSE 'Low Class'
+       END AS Category
+FROM employee;
+
+SELECT MIN(income)
+FROM employee
+WHERE division = 'Finance';
+
+SELECT MAX(income)
+FROM employee
+WHERE division = 'Finance';
+
+CREATE VIEW minIncomeFinance AS
+SELECT MIN(income)
+FROM employee
+WHERE division = 'Finance';
+
+CREATE VIEW maxIncomeFinance AS
+SELECT MAX(income)
+FROM employee
+WHERE division = 'Finance';
+
+SELECT * FROM maxIncomeFinance;
+
+SELECT * FROM minIncomeFinance;
