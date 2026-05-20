@@ -1,0 +1,89 @@
+use fprep;
+CREATE TABLE Employees (
+    EmpID int NOT NULL,
+    SurName varchar(255) unique not null,
+    GivenName varchar(255) NOT NULL,
+    Years int
+);
+desc Employees;
+
+SHOW INDEX FROM Employees;
+
+ALTER TABLE Employees DROP EmpID;
+ALTER TABLE Employees ADD CONSTRAINT unique_given_name UNIQUE (GivenName);
+alter table Employees add EmpID int;
+ALTER TABLE Employees MODIFY EmpID INT NULL;
+ALTER TABLE Employees MODIFY EmpID INT NOT NULL;
+alter table Employees modify SurName varchar(255) unique not null after EmpID;
+
+insert into Employees values (201,'Smith','John',null);
+select * from Employees;
+
+ALTER TABLE Employees
+ADD UNIQUE (Years);
+
+ALTER TABLE Employees
+DROP CONSTRAINT Years;
+
+drop table Employees;
+CREATE TABLE Employees (
+  
+    Years int not null,
+    CHECK (Years>=18 and Years <=23)
+);
+
+insert into Employees values (20);
+
+
+CREATE TABLE Contractors (
+    EmpID int NOT NULL,
+    SurName varchar(255) NOT NULL,
+    GivenName varchar(255),
+    Years int,
+    Location varchar(255) DEFAULT 'New York'
+);
+
+desc Contractors;
+
+create table devices(
+dev_id int primary key,
+dev_name varchar(100) not null,
+serialNum int not null unique
+);
+
+desc devices;
+
+insert into devices values (305,"laptop",55421);
+select * from devices;
+
+ALTER TABLE Contractors
+ADD PRIMARY KEY (EmpID);
+
+ALTER TABLE Contractors
+DROP PRIMARY KEY;
+drop table devices;
+create table departments(
+dept_id int primary key,
+dept_name varchar(100) not null
+);
+
+insert into departments values (201,'IT'),(202,'HR');
+
+select * from departments;
+
+CREATE TABLE devices (
+    dev_id int primary key,
+    dev_name varchar(100) NOT NULL,
+    dept_id int, 
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+desc devices;
+
+delete from departments where dept_id=201;
+INSERT INTO devices (dev_id, dev_name, dept_id) 
+VALUES (808, 'MacBook Pro', 202);
+UPDATE devices SET dev_name = 'MacBook Pro M3 Max' WHERE dev_id = 808;
+
+insert into devices values (808,'MacBook Pro',256-bit hash key);
+
+select * from devices;
