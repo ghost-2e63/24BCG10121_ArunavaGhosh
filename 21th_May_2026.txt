@@ -1,0 +1,60 @@
+use tech_corp;
+select * from departments_info;
+insert into departments_info values ('501', 'Hardware');
+#on delete cascade ; #this one implemented
+#on update cascade; #implement this too
+drop table equipment;
+create table equipment(
+	equip_id int primary key,
+	equip_name varchar(255) not null,
+	dept_id int,
+	foreign key (dept_id) references departments_info(dept_id) on delete cascade
+);
+desc equipment;
+select * from equipment;
+insert into equipment values ('10','Monitors','501');
+delete from departments_info where dept_id=501;
+
+
+select * from employees;
+select emp_name, dept_name, compensation from employees
+where dept_name ='IT' order by compensation desc;
+
+#group by clause
+
+select sum(compensation) from employees where dept_name='Finance';
+select sum(compensation), dept_name from employees group by dept_name; 
+
+#order by clause
+
+select dept_name, count(dept_name) from employees group by dept_name order by dept_name asc;
+
+#having clause
+
+#select cols from tab where cond group by cols having cond order by cn cols , this is the order
+#print only dept having more than 3 employees;
+select dept_name, count(dept_name) from employees group by dept_name having count(dept_name)>=3;
+#which dept accumulated compensation is less than 5 lakhs;
+select dept_name, sum(compensation) from employees group by dept_name having sum(compensation)<500000;
+
+#limit offset
+select * from employees limit 4 offset 3;
+
+#subqueries
+create table star_performers (perf_id int primary key);
+insert into star_performers values ('101'),('103'),('107');
+select * from star_performers;
+
+select * from employees where emp_id in (select * from star_performers);
+
+#q1) print first two least accumulated compensation by department
+select sum(compensation), dept_name from employees group by dept_name order by sum(compensation) asc limit 2;
+
+#q2) in IT department who is having 2nd largest compensation
+select * from employees where dept_name='IT' order by compensation desc limit 1 offset 1;
+
+#q3) in each department, find who is getting 2nd largest compensation
+select * from employees e1
+where compensation = (
+    select distinct compensation from employees e2
+    where e1.dept_name = e2.dept_name order by compensation desc limit 1 offset 1);
