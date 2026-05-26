@@ -1,0 +1,90 @@
+db
+Vitcampus
+show dbs
+admin   40.00 KiB
+config  36.00 KiB
+local   64.00 KiB
+vit     64.00 KiB
+use vit
+switched to db vit
+show collections
+Employee
+db.Employee.find().pretty()
+{
+  _id: ObjectId('7b247aa3c9e7c1f0b02c92cd'),
+  name: 'Arun',
+  address: 'Delhi'
+}
+{
+  _id: ObjectId('7b247ee2c9e7c1f0b02c92ce'),
+  name: 'Priya',
+  address: 'Mumbai'
+}
+{
+  _id: ObjectId('7b248016c9e7c1f0b02c92cf'),
+  name: 'Rahul',
+  mark: 85,
+  location: 'Hyderabad'
+}
+
+db.books.insertMany([
+  {title: "NoSQL Basics", isbn: '1-2345-6789-0'},
+  {title: "MongoDB in Action", isbn: '2-3456-7890-1'},
+  {title: "Database Essentials", isbn: '3-4567-8901-2'}
+]);
+
+db.products.insertMany([
+    { "_id" : 1, "name" : "AlphaPhone", "price" : 699, "releaseDate": ISODate("2013-07-21"), "spec" : { "ram" : 6, "screen" : 6.1, "cpu" : 2.10 }, "color":["red","black"], "storage":[64,128,256]},
+    { "_id" : 2, "name" : "BetaTablet", "price" : 999, "releaseDate": ISODate("2016-11-05"), "spec" : { "ram" : 8, "screen" : 10.2, "cpu" : 3.00 }, "color":["white","blue"], "storage":[128,256,512]},
+    { "_id" : 3, "name" : "GammaPad", "price" : 799, "releaseDate": ISODate("2019-03-14"), "spec" : { "ram" : 12, "screen" : 8.5, "cpu" : 2.50 }, "color":["green","gray"], "storage":[32,64,128]},
+    { "_id" : 4, "name" : "DeltaPhone", "price" : 599, "releaseDate": ISODate("2021-09-09"), "spec" : { "ram" : 4, "screen" : 5.9, "cpu" : 1.80 }, "color":["gold","black"], "storage":[128,256]},
+    { "_id" : 5, "name" : "OmegaTablet", "price" : 899, "releaseDate": ISODate("2024-01-01"), "spec" : { "ram" : 16, "screen" : 11.0, "cpu" : 3.20 }, "color":["purple","silver"], "storage":[256,512,1024]}
+]);
+
+db.products.find()
+{
+  _id: 1,
+  name: 'AlphaPhone',
+  price: 699,
+  releaseDate: 2013-07-21T00:00:00.000Z,
+  spec: { ram: 6, screen: 6.1, cpu: 2.10 },
+  color: ['red','black'],
+  storage: [64,128,256]
+}
+{
+  _id: 2,
+  name: 'BetaTablet',
+  price: 999,
+  releaseDate: 2016-11-05T00:00:00.000Z,
+  spec: { ram: 8, screen: 10.2, cpu: 3.00 },
+  color: ['white','blue'],
+  storage: [128,256,512]
+}
+{
+  _id: 3,
+  name: 'GammaPad',
+  price: 799,
+  releaseDate: 2019-03-14T00:00:00.000Z,
+  spec: { ram: 12, screen: 8.5, cpu: 2.50 },
+  color: ['green','gray'],
+  storage: [32,64,128]
+}
+{
+  _id: 4,
+  name: 'DeltaPhone',
+  price: 599,
+  releaseDate: 2021-09-09T00:00:00.000Z,
+  spec: { ram: 4, screen: 5.9, cpu: 1.80 },
+  color: ['gold','black'],
+  storage: [128,256]
+}
+{
+  _id: 5,
+  name: 'OmegaTablet',
+  price: 899,
+  releaseDate: 2024-01-01T00:00:00.000Z,
+  spec: { ram: 16, screen: 11.0, cpu: 3.20 },
+  color: ['purple','silver'],
+  storage: [256,512,1024]
+}
+vit
