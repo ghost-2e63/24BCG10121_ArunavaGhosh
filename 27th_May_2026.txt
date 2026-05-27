@@ -1,0 +1,766 @@
+db.products.insertMany([
+    { "_id" : 1, "name" : "xPhone", "price" : 799,
+"releaseDate": ISODate("2011-05-14"), "spec" : { "ram" : 4,
+"screen" : 6.5, "cpu" : 2.66
+},"color":["white","black"],"storage":[64,128,256]},
+    { "_id" : 2, "name" : "xTablet", "price" : 899,
+"releaseDate": ISODate("2011-09-01") , "spec" : { "ram" : 16,
+"screen" : 9.5, "cpu" : 3.66
+},"color":["white","black","purple"],"storage":[128,256,512]},
+    { "_id" : 3, "name" : "SmartTablet", "price" : 899,
+"releaseDate": ISODate("2015-01-14"), "spec" : { "ram" : 12,
+"screen" : 9.7, "cpu" : 3.66
+},"color":["blue"],"storage":[16,64,128]},
+    { "_id" : 4, "name" : "SmartPad", "price" : 699,
+"releaseDate": ISODate("2020-05-14"),"spec" : { "ram" : 8,
+"screen" : 9.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256,1024]},
+    { "_id" : 5, "name" : "SmartPhone", "price" :
+599,"releaseDate": ISODate("2022-09-14"), "spec" : { "ram" : 4,
+"screen" : 5.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256]}
+ ])
+
+db.products.find({
+    price: {
+        $gte: 799
+    }
+}, {
+    name: 1,
+    price: 1
+})
+
+[
+  { _id: 1, name: 'xPhone', price: 799 },
+  { _id: 2, name: 'xTablet', price: 899 },
+  { _id: 3, name: 'SmartTablet', price: 899 }
+]
+
+
+
+db.products.find({
+    "spec.screen": {
+        $gte: 9.5
+    }
+}, {
+    name: 1,
+    "spec.screen": 1
+})
+Code language: PHP (php)
+Output:
+[
+  { _id: 2, name: 'xTablet', spec: { screen: 9.5 } },
+  { _id: 3, name: 'SmartTablet', spec: { screen: 9.7 } },
+  { _id: 4, name: 'SmartPad', spec: { screen: 9.7 } },
+  { _id: 5, name: 'SmartPhone', spec: { screen: 9.7 } }
+]
+Code language: JavaScript (javascript)
+
+
+
+-- Using the $gte operator to check if an array element is greater
+than or equal to a value
+The following example uses the $gte operator to query the products
+collection to find all documents where the array storage has at least
+one element greater than or equal to 512:
+db.products.find({
+    storage: {
+        $gte: 512
+    }
+}, {
+    name: 1,
+    storage: 1
+})
+Code language: CSS (css)
+The query returned the following documents:
+[
+  { _id: 2, name: 'xTablet', storage: [ 128, 256, 512 ] },
+  { _id: 4, name: 'SmartPad', storage: [ 128, 256, 1024 ] }
+]
+Code language: JavaScript (javascript)
+
+
+
+4) Using the $gte operator to check if a field is after or on the same
+date
+The following query uses the $gte operator to select documents from the
+products collection to find all documents where the release date is
+after or on 2020-05-14:
+db.products.find({
+    "releaseDate": {
+        $gte: new ISODate('2020-05-14')
+    }
+}, {
+    name: 1,
+    releaseDate: 1
+});
+Code language: PHP (php)
+The query returned the following documents:
+[
+  {
+    _id: 4,
+    name: 'SmartPad',
+    releaseDate: ISODate("2020-05-14T00:00:00.000Z")
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    releaseDate: ISODate("2022-09-14T00:00:00.000Z")
+  }
+]
+
+
+
+
+
+
+Introduction to MongoDB $ne operator
+The $ne is a comparison query operator that allows you to select
+documents where the value of a filed is not equal to a specified value.
+It also includes documents that don't contain the field.
+The $ne is called the inequality operator. Here is the syntax of the
+$ne operator:
+{ field: {$ne: value}}
+Code language: CSS (css)
+MongoDB $ne operator examples
+We'll use the following products collection:
+db.products.insertMany([
+    { "_id" : 1, "name" : "xPhone", "price" : 799,
+"releaseDate": ISODate("2011-05-14"), "spec" : { "ram" : 4,
+"screen" : 6.5, "cpu" : 2.66
+},"color":["white","black"],"storage":[64,128,256]},
+    { "_id" : 2, "name" : "xTablet", "price" : 899,
+"releaseDate": ISODate("2011-09-01") , "spec" : { "ram" : 16,
+"screen" : 9.5, "cpu" : 3.66
+},"color":["white","black","purple"],"storage":[128,256,512]},
+    { "_id" : 3, "name" : "SmartTablet", "price" : 899,
+"releaseDate": ISODate("2015-01-14"), "spec" : { "ram" : 12,
+"screen" : 9.7, "cpu" : 3.66
+},"color":["blue"],"storage":[16,64,128]},
+    { "_id" : 4, "name" : "SmartPad", "price" : 699,
+"releaseDate": ISODate("2020-05-14"),"spec" : { "ram" : 8,
+"screen" : 9.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256,1024]},
+    { "_id" : 5, "name" : "SmartPhone", "price" :
+599,"releaseDate": ISODate("2022-09-14"), "spec" : { "ram" : 4,
+"screen" : 9.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256]}
+,
+    { "_id" : 6, "name" : "xWidget", "spec" : { "ram" : 64,
+"screen" : 9.7, "cpu" : 3.66
+},"color":["black"],"storage":[1024]}
+ ])
+Code language: JavaScript (javascript)
+1) Using the $ne operator to select documents where the value of a
+field is greater than a specified value
+The following example uses the $ne operator to select documents from
+the products collection where the price is not equal to 899:
+db.products.find({
+    price: {
+        $ne: 899
+    }
+}, {
+    name: 1,
+    price: 1
+})
+Code language: CSS (css)
+It matches the following documents:
+[
+  { _id: 1, name: 'xPhone', price: 799 },
+  { _id: 4, name: 'SmartPad', price: 699 },
+  { _id: 5, name: 'SmartPhone', price: 599 },
+  { _id: 6, name: 'xWidget' }
+]
+Code language: JavaScript (javascript)
+
+
+2) Using the $ne operator to check if a field in an embedded document
+is not equal to a value
+The following example uses $ne operator to select documents where the
+value of the screen field in the spec document is not equal to 9.7:
+db.products.find({
+    "spec.screen": {
+        $ne: 9.7
+    }
+}, {
+    name: 1,
+    "spec.screen": 1
+})
+Code language: PHP (php)
+Output:
+[
+  { _id: 1, name: 'xPhone', spec: { screen: 6.5 } },
+  { _id: 2, name: 'xTablet', spec: { screen: 9.5 } }
+]
+Code language: JavaScript (javascript)
+
+
+
+3) Using the $ne operator to check if an array element is not equal to
+a value
+The following example uses the $ne operator to query the products
+collection to find documents where the array storage does not have any
+element that equals 128:
+db.products.find({
+    storage: {
+        $ne: 128
+    }
+}, {
+    name: 1,    storage: 1
+});
+Code language: CSS (css)
+It matched the following documents:
+[ { _id: 6, name: 'xWidget', storage: [ 1024 ] } ]
+Code language: CSS (css)
+
+
+
+
+4) Using the $ne operator to check if the value of a field is not equal
+to a date
+The following query uses the $ne operator to find documents from the
+products collection where the release date is not 2015-01-14:
+db.products.find({
+    releaseDate: {
+        $ne: new ISODate('2015-01-14')
+    }
+}, {
+    name: 1,
+    releaseDate: 1
+});
+Code language: CSS (css)
+
+
+
+It returns the documents whose release dates are not 2015-01-14 and also
+the document that does not include the field releaseDate :
+[
+  {
+    _id: 1,
+    name: 'xPhone',
+    releaseDate: ISODate("2011-05-14T00:00:00.000Z")
+  },
+  {
+    _id: 2,
+    name: 'xTablet',
+    releaseDate: ISODate("2011-09-01T00:00:00.000Z")
+  },
+  {
+    _id: 4,
+    name: 'SmartPad',
+    releaseDate: ISODate("2020-05-14T00:00:00.000Z")
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    releaseDate: ISODate("2022-09-14T00:00:00.000Z")
+  },
+  { _id: 6, name: 'xWidget' }
+]
+
+
+
+
+Introduction to the MongoDB $in operator
+The $in is a comparison query operator that allows you to select
+documents where the value of a field is equal to any value in an array.
+The following shows the syntax of the $in operator:
+{ field: { $in: [<value1>, <value2>,...] }}
+Code language: CSS (css)
+If the field holds a single value, then the $in operator selects
+documents where the value of the field is equal to any value such as
+<value1>, <value2>.
+In case the field holds an array, the $in operator selects documents
+where the array contains at least one element that equals any value
+(<value1>, <value2>).
+The value list <value1>, <value2>, etc., can be a list of literal
+values or regular expressions.
+A regular expression is a set of characters that defines a search
+pattern e.g., /d+/ any digits such as 1, 123, and 1234.
+MongoDB $in operator examples
+We'll use this products collections in the following examples:
+db.products.insertMany([
+    { "_id" : 1, "name" : "xPhone", "price" : 799,
+"releaseDate": ISODate("2011-05-14"), "spec" : { "ram" : 4,
+"screen" : 6.5, "cpu" : 2.66
+},"color":["white","black"],"storage":[64,128,256]},
+    { "_id" : 2, "name" : "xTablet", "price" : 899,
+"releaseDate": ISODate("2011-09-01") , "spec" : { "ram" : 16,
+"screen" : 9.5, "cpu" : 3.66
+},"color":["white","black","purple"],"storage":[128,256,512]},
+    { "_id" : 3, "name" : "SmartTablet", "price" : 899,
+"releaseDate": ISODate("2015-01-14"), "spec" : { "ram" : 12,
+"screen" : 9.7, "cpu" : 3.66
+},"color":["blue"],"storage":[16,64,128]},
+    { "_id" : 4, "name" : "SmartPad", "price" : 699,
+"releaseDate": ISODate("2020-05-14"),"spec" : { "ram" : 8,
+"screen" : 9.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256,1024]},
+    { "_id" : 5, "name" : "SmartPhone", "price" :
+599,"releaseDate": ISODate("2022-09-14"), "spec" : { "ram" : 4,
+"screen" : 5.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256]}
+ ])
+Code language: JavaScript (javascript)
+1) Using the $in opeator to match values
+The following example uses the $in operator to select documents from
+the products collection whose the price is either 599 or 799:
+db.products.find({
+    price: {
+        $in: [699, 799]
+    }
+}, {
+    name: 1,
+    price: 1
+})
+Code language: CSS (css)
+It returned the following documents:
+[
+  { _id: 1, name: 'xPhone', price: 799 },
+  { _id: 4, name: 'SmartPad', price: 699 }
+]
+Code language: JavaScript (javascript)
+
+
+
+
+2) Using the $in operator to match values in an array
+The products collection has the color array that contains some colors.
+The following example uses the $in operator to select documents where
+the color array has at least one element either "black" or "white":
+db.products.find({
+    color: {
+        $in: ["black", "white"]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+Code language: CSS (css)
+
+
+
+
+The query returned the following documents:
+[
+  { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] },
+  { _id: 2, name: 'xTablet', color: [ 'white', 'black',
+'purple' ] },
+  {
+    _id: 4,
+    name: 'SmartPad',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  }
+]
+Code language: JavaScript (javascript)
+
+
+
+3) Using the $in operator with regular expressions
+The following query uses the $in operator to find documents where the
+color array has at least one element that matches either /^g+/ or
+/^w+/ regular expression:
+db.products.find({
+    color: {
+        $in: [/^g+/, /^w+/]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+Code language: CSS (css)
+It returned the following documents:
+[
+  { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] },
+  { _id: 2, name: 'xTablet', color: [ 'white', 'black',
+'purple' ] },
+  {
+    _id: 4,
+    name: 'SmartPad',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  }
+]
+
+Introduction to the MongoDB $nin operator
+The $nin is a query comparison operator that allows you to find
+documents where:
+• the value of the field is not equal to any value in an array
+• or the field does not exist.
+Here is the syntax of the $nin operator:
+{ field: { $nin: [ <value1>, <value2> ...]} }
+Code language: CSS (css)
+Like the $in operator, the value list (<value1>, <value2>,...) can
+be a list of literal values or regular expressions.
+
+
+
+
+MongoDB $nin operator examples
+We'll use this products collections:
+db.products.insertMany([
+    { "_id" : 1, "name" : "xPhone", "price" : 799,
+"releaseDate": ISODate("2011-05-14"), "spec" : { "ram" : 4,
+"screen" : 6.5, "cpu" : 2.66
+},"color":["white","black"],"storage":[64,128,256]},
+    { "_id" : 2, "name" : "xTablet", "price" : 899,
+"releaseDate": ISODate("2011-09-01") , "spec" : { "ram" : 16,
+"screen" : 9.5, "cpu" : 3.66
+},"color":["white","black","purple"],"storage":[128,256,512]},
+    { "_id" : 3, "name" : "SmartTablet", "price" : 899,
+"releaseDate": ISODate("2015-01-14"), "spec" : { "ram" : 12,
+"screen" : 9.7, "cpu" : 3.66
+},"color":["blue"],"storage":[16,64,128]},
+    { "_id" : 4, "name" : "SmartPad", "price" : 699,
+"releaseDate": ISODate("2020-05-14"),"spec" : { "ram" : 8,
+"screen" : 9.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256,1024]},
+    { "_id" : 5, "name" : "SmartPhone", "price" :
+599,"releaseDate": ISODate("2022-09-14"), "spec" : { "ram" : 4,
+"screen" : 5.7, "cpu" : 1.66
+},"color":["white","orange","gold","gray"],"storage":[128,256]}
+ ])
+Code language: JavaScript (javascript)
+
+
+1) Using the MongoDB $nin opeator to match values
+The following query uses the $nin operator to select documents from the
+products collection whose price is neither 599 or 799:
+db.products.find({
+    price: {
+        $nin: [699, 799]
+    }
+}, {
+    name: 1,
+    price: 1
+})
+Code language: CSS (css)
+It returned the following documents:
+[
+  { _id: 2, name: 'xTablet', price: 899 },
+  { _id: 3, name: 'SmartTablet', price: 899 },
+  { _id: 5, name: 'SmartPhone', price: 599 }
+]
+Code language: JavaScript (javascript)
+
+
+2) Using the MongoDB $nin operator to match values in an array
+The following example uses the $nin operator to select documents where
+the color array doesn't have an element that is either "black" or
+"white":
+db.products.find({
+    color: {
+        $nin: ["black", "white"]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+Code language: CSS (css)
+The query returned the following documents:
+[ { _id: 3, name: 'SmartTablet', color: [ 'blue' ] } ]
+Code language: CSS (css)
+
+
+3) Using the MongoDB $nin operator with regular expressions
+The following query uses the $nin operator to find documents where the
+color array doesn't have an element that matches /^g+/ and /^w+/
+regular expression:
+db.products.find({
+    color: {
+        $nin: [/^g+/, /^w+/]
+    }
+}, {
+    name: 1,
+    color: 1
+})
+Code language: CSS (css)
+It returned the following documents:
+[ { _id: 3, name: 'SmartTablet', color: [ 'blue' ] } ]
+
+
+
+Introduction to the MongoDB $and operator
+The $and is a logical query operator that allows you to carry a logical
+AND operation on an array of one or more expressions.
+The following shows the syntax of the $and operator:
+$and :[{expression1}, {expression2},...]
+Code language: PHP (php)
+The $and operator returns true if all expressions evaluate to true.
+The $and operator stops evaluating the remaining expressions as soon as
+it finds an expression that evaluates to false. This feature is called
+short-circuit evaluation.
+Implicit AND operator
+When you use a comma-separated list of expressions, MongoDB will carry
+an implicit AND operation:
+{ field: { expression1, expression2, ... }
+Code language: CSS (css)
+
+
+MongoDB $and operator examples
+We'll use the following products collection:
+db.products.insertMany([
+{ "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate"
+: ISODate("2011-05-14T00:00:00Z"), "spec" : { "ram" : 4,
+"screen" : 6.5, "cpu" : 2.66 }, "color" : [ "white", "black"
+], "storage" : [ 64, 128, 256 ] },
+{ "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate"
+: ISODate("2011-09-01T00:00:00Z"), "spec" : { "ram" : 16,
+"screen" : 9.5, "cpu" : 3.66 }, "color" : [ "white", "black",
+"purple" ], "storage" : [ 128, 256, 512 ] },
+{ "_id" : 3, "name" : "SmartTablet", "price" : 899,
+"releaseDate" : ISODate("2015-01-14T00:00:00Z"), "spec" : {
+"ram" : 12, "screen" : 9.7, "cpu" : 3.66 }, "color" : [
+"blue" ], "storage" : [ 16, 64, 128 ] },
+{ "_id" : 4, "name" : "SmartPad", "price" : 699,
+"releaseDate" : ISODate("2020-05-14T00:00:00Z"), "spec" : {
+"ram" : 8, "screen" : 9.7, "cpu" : 1.66 }, "color" : [
+"white", "orange", "gold", "gray" ], "storage" : [ 128, 256,
+1024 ] },
+{ "_id" : 5, "name" : "SmartPhone", "price" : 599,
+"releaseDate" : ISODate("2022-09-14T00:00:00Z"), "spec" : {
+"ram" : 4, "screen" : 9.7, "cpu" : 1.66 }, "color" : [
+"white", "orange", "gold", "gray" ], "storage" : [ 128, 256
+] },
+{ "_id" : 6, "name" : "xWidget", "spec" : { "ram" : 64,
+"screen" : 9.7, "cpu" : 3.66 }, "color" : [ "black" ],
+"storage" : [ 1024 ] }
+])
+Code language: JavaScript (javascript)
+
+
+
+1) Using MongoDB $and operator example
+
+The following example uses the $and operator to select all documents in
+the products collection where:
+• the value in the price field is equal to 899 and
+• the value in the color field is either "white" or "black"
+db.products.find({
+    $and: [{
+        price: 899
+    }, {
+        color: {
+            $in: ["white", "black"]
+        }
+    }]
+}, {
+    name: 1,
+    price: 1,
+    color: 1
+})
+Code language: PHP (php)
+It returned the following document:
+[
+  {
+    _id: 2,
+    name: 'xTablet',
+    price: 899,
+    color: [ 'white', 'black', 'purple' ]
+  }
+]
+Code language: JavaScript (javascript)
+
+
+2) Using MongoDB $and operator with the same field
+The following example uses the $and operator to select all documents
+where:
+• the price field value equals 699 and
+• the price field value exists
+db.products.find({
+    $and: [{
+        price: 699
+    }, {
+        price: {
+            $exists: true
+        }
+    }]
+}, {
+    name: 1,
+    price: 1,
+    color: 1
+})
+Code language: PHP (php)
+Output:
+[
+  {
+    _id: 4,
+    name: 'SmartPad',
+    price: 699,
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  }
+]
+Code language: JavaScript (javascript)
+
+
+The following example uses the implicit AND operator and returns the
+same result:
+db.products.find({
+    price: {
+        $eq: 699,
+        $exists: true
+    }
+}, {
+    name: 1,
+    price: 1,
+    color: 1
+})
+
+
+Introduction to the MongoDB $or operator
+The $or is a logical query operator that carries a logical OR operation
+on an array of one or more expressions and selects the documents that
+satisfy at least one expression.
+Here is the syntax of the $or operator:
+$or:[{expression1}, {expression2},...]
+Code language: PHP (php)
+
+
+
+We'll use the following products collection:
+db.products.insertMany([
+{ "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate"
+: ISODate("2011-05-14T00:00:00Z"), "spec" : { "ram" : 4,
+"screen" : 6.5, "cpu" : 2.66 }, "color" : [ "white", "black"
+], "storage" : [ 64, 128, 256 ] },
+{ "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate"
+: ISODate("2011-09-01T00:00:00Z"), "spec" : { "ram" : 16,
+"screen" : 9.5, "cpu" : 3.66 }, "color" : [ "white", "black",
+"purple" ], "storage" : [ 128, 256, 512 ] },
+{ "_id" : 3, "name" : "SmartTablet", "price" : 899,
+"releaseDate" : ISODate("2015-01-14T00:00:00Z"), "spec" : {
+"ram" : 12, "screen" : 9.7, "cpu" : 3.66 }, "color" : [
+"blue" ], "storage" : [ 16, 64, 128 ] },
+{ "_id" : 4, "name" : "SmartPad", "price" : 699,
+"releaseDate" : ISODate("2020-05-14T00:00:00Z"), "spec" : {
+"ram" : 8, "screen" : 9.7, "cpu" : 1.66 }, "color" : [
+"white", "orange", "gold", "gray" ], "storage" : [ 128, 256,
+1024 ] },
+{ "_id" : 5, "name" : "SmartPhone", "price" : 599,
+"releaseDate" : ISODate("2022-09-14T00:00:00Z"), "spec" : {
+"ram" : 4, "screen" : 9.7, "cpu" : 1.66 }, "color" : [
+"white", "orange", "gold", "gray" ], "storage" : [ 128, 256
+] }
+])
+Code language: JavaScript (javascript)
+1) Using MongoDB $or operator example
+The following example uses the $or operator to select all documents in
+the products collection where the value in the price field equals 799 or
+899:
+db.products.find({
+    $or: [{
+        price: 799
+    }, {
+        price: 899
+    }]
+}, {
+    name: 1,
+    price: 1
+})
+Code language: PHP (php)
+It returned the following documents:
+[
+  { _id: 1, name: 'xPhone', price: 799 },
+  { _id: 2, name: 'xTablet', price: 899 },
+  { _id: 3, name: 'SmartTablet', price: 899 }
+]
+Code language: JavaScript (javascript)
+Since this example checks equality for the same price field, you should
+use the $in operator instead:
+db.products.find({
+    price: {
+        $in: [799, 899]
+    }
+}, {
+    name: 1,
+    price: 1
+})
+Code language: CSS (css)
+2) Using MongoDB $or operator to select documents where the value of a
+field is in a range
+The following example uses the $or operator to select all documents
+where the price is less than 699 or greater than 799:
+db.products.find({
+    $or: [
+        { price: {$lt: 699} },
+        { price: {$gt: 799} }
+    ]
+}, {
+    name: 1,
+    price: 1
+})
+Code language: PHP (php)
+Output:
+[
+  { _id: 2, name: 'xTablet', price: 899 },
+  { _id: 3, name: 'SmartTablet', price: 899 },
+  { _id: 5, name: 'SmartPhone', price: 599 }
+]
+
+
+
+
+
+Introduction to the MongoDB $nor operator
+The $nor is a logical query operator that allows you to perform a
+logical NOR operation on a list of one or more query expressions and
+selects documents that fail all the query expressions.
+The syntax of the $nor operator is as follows:
+{ $nor: [ { <expression1> }, { <expression2> },...] }
+
+
+MongoDB $nor operator examples
+We'll use the following products collection:
+db.products.insertMany([
+{ "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate"
+: ISODate("2011-05-14T00:00:00Z"), "spec" : { "ram" : 4,
+"screen" : 6.5, "cpu" : 2.66 }, "color" : [ "white", "black"
+], "storage" : [ 64, 128, 256 ] },
+{ "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate"
+: ISODate("2011-09-01T00:00:00Z"), "spec" : { "ram" : 16,
+"screen" : 9.5, "cpu" : 3.66 }, "color" : [ "white", "black",
+"purple" ], "storage" : [ 128, 256, 512 ] },
+{ "_id" : 3, "name" : "SmartTablet", "price" : 899,
+"releaseDate" : ISODate("2015-01-14T00:00:00Z"), "spec" : {
+"ram" : 12, "screen" : 9.7, "cpu" : 3.66 }, "color" : [
+"blue" ], "storage" : [ 16, 64, 128 ] },
+{ "_id" : 4, "name" : "SmartPad", "price" : 699,
+"releaseDate" : ISODate("2020-05-14T00:00:00Z"), "spec" : {
+"ram" : 8, "screen" : 9.7, "cpu" : 1.66 }, "color" : [
+"white", "orange", "gold", "gray" ], "storage" : [ 128, 256,
+1024 ] },
+{ "_id" : 5, "name" : "SmartPhone", "price" : 599,
+"releaseDate" : ISODate("2022-09-14T00:00:00Z"), "spec" : {
+"ram" : 4, "screen" : 9.7, "cpu" : 1.66 }, "color" : [
+"white", "orange", "gold", "gray" ], "storage" : [ 128, 256
+] },
+{ "_id" : 6, "name" : "xWidget", "spec" : { "ram" : 64,
+"screen" : 9.7, "cpu" : 3.66 }, "color" : [ "black" ],
+"storage" : [ 1024 ] }
+])
+Code language: JavaScript (javascript)
+The following example uses the $nor operator to select documents from
+the products collection:
+db.products.find({
+    $nor :[
+        { price: 899},
+        { color: "gold"}
+    ]
+}, {
+    name: 1,
+    price: 1, 
+    color: 1
+})
+
+{ "_id" : 1, "name" : "xPhone", "price" : 799, "color" : [
+"white", "black" ] }
+{ "_id" : 6, "name" : "xWidget", "color" : [ "black" ] }
