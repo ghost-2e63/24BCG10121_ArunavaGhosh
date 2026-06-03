@@ -1,0 +1,68 @@
+package mongo;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import org.bson.Document;
+
+public class StudentDB {
+
+    public static void main(String[] args) {
+
+        MongoClient client = new MongoClient("localhost", 27017);
+
+        MongoDatabase db = client.getDatabase("collegeDB");
+        MongoCollection<Document> students = db.getCollection("Students");
+
+        students.insertMany(java.util.Arrays.asList(
+
+                new Document("sid", 201)
+                        .append("name", "Aarav Singh")
+                        .append("course", "IT")
+                        .append("cgpa", 8.1),
+
+                new Document("sid", 202)
+                        .append("name", "Priya Das")
+                        .append("course", "CSE")
+                        .append("cgpa", 9.0),
+
+                new Document("sid", 203)
+                        .append("name", "Kabir Roy")
+                        .append("course", "ECE")
+                        .append("cgpa", 7.8)
+        ));
+
+        System.out.println("Inserted");
+
+        for (Document d : students.find())
+            System.out.println(d.toJson());
+
+        System.out.println("\nFound:");
+        System.out.println(
+                students.find(Filters.eq("sid", 202)).first().toJson()
+        );
+
+        students.updateOne(
+                Filters.eq("sid", 202),
+                Updates.set("name", "Priya Sen")
+        );
+
+        students.replaceOne(
+                Filters.eq("sid", 203),
+                new Document("sid", 203)
+                        .append("name", "Riya Khan")
+                        .append("course", "AIML")
+                        .append("cgpa", 9.2)
+        );
+
+        students.deleteOne(Filters.eq("sid", 201));
+
+        System.out.println("\nFinal Records:");
+
+        for (Document d : students.find())
+            System.out.println(d.toJson());
+
+        client.close();
+    }
+}
