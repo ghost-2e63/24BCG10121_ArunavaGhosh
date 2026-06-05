@@ -1,0 +1,84 @@
+[
+  { "$group": { "_id": "$item", "averageQty": { "$avg": "$quantity" } } }
+]
+
+[
+  { "$group": { "_id": "$item", "averageQty": { "$avg": "$quantity" } } },
+  { "$project": { "_id": 1, "averageQty": { "$multiply": [ "$averageQty", 15 ] } } },
+  { "$sort": { "averageQty": 1 } }
+]
+
+[
+  { "$group": { "_id": "$item", "averageAmount": { "$avg": { "$multiply": [ "$quantity", "$price" ] } } } },
+  { "$sort": { "averageAmount": 1 } }
+]
+
+[
+  { "$group": { "_id": "$item", "averageAmount": { "$avg": { "$multiply": [ "$quantity", "$price" ] } } } },
+  { "$match": { "averageAmount": { "$gt": 200 } } },
+  { "$sort": { "averageAmount": 1 } }
+]
+
+[
+  { "$group": { "_id": "$item", "itemCount": { "$sum": 1 } } }
+]
+
+[
+  { "$group": { "_id": "$item", "itemCount": { "$sum": 1 } } },
+  { "$match": { "itemCount": { "$gt": 1 } } }
+]
+
+[
+  { "$group": { "_id": null, "totalQty": { "$sum": "$quantity" } } }
+]
+
+[
+  { "$group": { "_id": null, "totalQty": { "$sum": "$quantity" } } },
+  { "$project": { "_id": 0 } }
+]
+
+[
+  { "$group": { "_id": "$item", "totalQty": { "$sum": "$quantity" } } }
+]
+
+[
+  { "$group": { "_id": "$item", "totalQty": { "$sum": "$quantity" } } },
+  { "$sort": { "totalQty": -1 } }
+]
+
+[
+  { "$group": { "_id": "$item", "totalQty": { "$sum": "$quantity" } } },
+  { "$match": { "totalQty": { "$gt": 60 } } },
+  { "$sort": { "totalQty": -1 } }
+]
+
+[
+  { "$group": { "_id": "$size", "totalAmount": { "$sum": { "$multiply": [ "$price", "$quantity" ] } } } },
+  { "$sort": { "totalAmount": -1 } }
+]
+
+[
+  { "$group": { "_id": null, "maxQty": { "$max": "$quantity" } } },
+  { "$project": { "_id": 0 } }
+]
+
+[
+  { "$group": { "_id": "$item", "maxQty": { "$max": "$quantity" } } }
+]
+
+[
+  { "$group": { "_id": "$item", "maxQty": { "$max": { "$multiply": [ "$quantity", "$price" ] } } } }
+]
+
+[
+  { "$group": { "_id": null, "minQty": { "$min": "$quantity" } } },
+  { "$project": { "_id": 0 } }
+]
+
+[
+  { "$group": { "_id": "$item", "minQty": { "$min": "$quantity" } } }
+]
+
+[
+  { "$group": { "_id": "$item", "minQty": { "$min": { "$multiply": [ "$quantity", "$price" ] } } } }
+]
