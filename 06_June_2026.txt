@@ -1,0 +1,86 @@
+// inserting initial coffee sales data
+db.sales.getIndexes();
+
+db.sales.insertMany([
+   { "_id" : 1, "item" : "Americanos", "price" : 5, "size": "Short", "quantity" : 22, "date" : ISODate("2022-01-15T08:00:00Z") },
+   { "_id" : 2, "item" : "Capuccino", "price" : 6, "size": "Short","quantity" : 12, "date" : ISODate("2022-01-16T09:00:00Z") },
+   { "_id" : 3, "item" : "Lattes", "price" : 15, "size": "Grande","quantity" : 25, "date" : ISODate("2022-01-16T09:05:00Z") },
+   { "_id" : 4, "item" : "Mochas", "price" : 25,"size": "Tall", "quantity" : 11, "date" : ISODate("2022-02-17T08:00:00Z") },
+   { "_id" : 5, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 12, "date" : ISODate("2022-02-18T21:06:00Z") },
+   { "_id" : 6, "item" : "Cappuccino", "price" : 7, "size": "Tall","quantity" : 20, "date" : ISODate("2022-02-20T10:07:00Z") },
+   { "_id" : 7, "item" : "Lattes", "price" : 25,"size": "Tall", "quantity" : 30, "date" : ISODate("2022-02-21T10:08:00Z") },
+   { "_id" : 8, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 21, "date" : ISODate("2022-02-22T14:09:00Z") },
+   { "_id" : 9, "item" : "Cappuccino", "price" : 10, "size": "Grande","quantity" : 17, "date" : ISODate("2022-02-23T14:09:00Z") },
+   { "_id" : 10, "item" : "Americanos", "price" : 8, "size": "Tall","quantity" : 15, "date" : ISODate("2022-02-25T14:09:00Z")}
+]);
+
+db.books.getIndexes();
+db.books.find({ author: { $ne: "aru" } });
+
+db.users.insertMany([
+   { email:  "alpha@test.com", name: "alpha"},
+   { email:  "beta@test.com", name: "beta"}
+]);
+
+db.users.createIndex({email: 1}, {unique: true});
+
+db.users.insertOne(
+   { email:  "gamma@test.com", name: "gamma", session_token: "aru"} 
+);
+
+// drop users to test duplicate keys
+db.users.drop();
+
+db.users.insertMany([
+   { email:  "delta@test.com", name: "delta"},
+   { email:  "delta@test.com", name: "delta_dup"},
+   { email:  "epsilon@test.com", name: "epsilon"}
+]);
+
+db.users.createIndex({email: 1}, {unique: true});
+
+db.users.deleteOne({name: 'delta_dup', email: 'delta@test.com'});
+
+db.users.createIndex({email: 1}, {unique: true});
+
+db.locations.insertOne({
+    address: "Eifel Tower, Paris, France",
+    lat: 48.8584,
+    long: 2.2945
+});
+
+db.locations.createIndex({
+    lat: 1,
+    long: 1
+}, { unique: true });
+
+db.locations.insertOne({
+    address: "Louvre Museum, Paris, France",
+    lat: 48.8606,
+    long: 2.3376
+});
+
+db.movies.createIndex({ title: 1, year: 1 });
+
+db.movies.find({title: /avatar|akaassh/gi, year: 2009}).explain('executionStats');
+db.movies.find({title: /avatar/gi}).explain('executionStats');
+db.movies.find({year: 2009}).explain('executionStats');
+
+db.movies.createIndex({year: 1});
+db.movies.getIndexes();
+
+db.movies.dropIndex('year_1');
+db.movies.getIndexes();
+
+db.movies.createIndex({runtime: -1});
+db.movies.getIndexes();
+
+db.movies.find().limit(0); 
+
+db.movies.dropIndex({runtime: -1});
+
+db.movies.createIndex({year: 1});
+db.movies.createIndex({runtime: 1});
+db.movies.getIndexes();
+
+db.movies.dropIndexes();
