@@ -1,6 +1,6 @@
-# mysql assignment
+# mongoDBA classworks
 
-Submission by Arunava Ghosh (24BCG10121)
+Submission by **Arunava Ghosh (24BCG10121)**
 
 #### quick start
 
@@ -26,3 +26,7 @@ SOURCE crud_queries.sql;
 ![mysql](screenshot/6.png)
 ![mysql](screenshot/7.png)
 ![mysql](screenshot/8.png)
+
+## Disclaimer
+
+This is my coursework. Do not copy it. Submitting any part of this as your own work is academic misconduct and I will report it to my university without hesitation. The consequences are yours to deal with.
