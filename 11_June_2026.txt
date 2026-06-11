@@ -1,0 +1,248 @@
+ARUNAVA GHOSH
+24BCG10121
+-------------
+
+sh.addShard("rs-shard-A/node-A1.internal:27011")
+sh.addShard("rs-shard-B/node-B1.internal:27012")
+{
+  shardAdded: 'rs-shard-B',
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1690000000, i: 18 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1690000000, i: 18 })
+}
+sh.status()
+shardingVersion
+{
+  _id: ObjectId('5f1ab38c9bb8c174625ad999'),
+  clusterId: ObjectId('5f1ab38c9bb8c174625ad888')
+}
+shards
+[
+  {
+    _id: 'rs-shard-A',
+    host: 'rs-shard-A/node-A1.internal:27011',
+    topologyTime: Timestamp({ t: 1690000001, i: 32 }),
+    replSetConfigVersion: -1
+  },
+  {
+    _id: 'rs-shard-B',
+    host: 'rs-shard-B/node-B1.internal:27012',
+    topologyTime: Timestamp({ t: 1690000001, i: 80 }),
+    replSetConfigVersion: -1
+  }
+]
+active mongoses
+[
+  {
+    '8.3.2': 1
+  }
+]
+autosplit
+{
+  'Currently enabled': 'yes'
+}
+balancer
+{
+  'Currently enabled': 'yes',
+  'Currently running': 'no',
+  'Failed balancer rounds in last 5 attempts': 0,
+  'Migration Results for the last 24 hours': 'No recent migrations'
+}
+shardedDataDistribution
+[]
+databases
+[
+  {
+    database: {
+      _id: 'config',
+      primary: 'config',
+      partitioned: true
+    },
+    collections: {}
+  }
+]
+sh.enableSharding("ProductionDB")
+{
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1690000020, i: 21 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1690000020, i: 21 })
+}
+sh.shardCollection(
+  "ProductionDB.transactions",
+  { account_uuid: "hashed" }
+)
+{
+  collectionsharded: 'ProductionDB.transactions',
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1690000030, i: 23 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1690000030, i: 23 })
+}
+use ProductionDB
+for(let i=0;i<1000;i++){
+  db.transactions.insertOne({
+    account_uuid:"acc_"+i,
+    amount:Math.random()*100
+  })
+}
+switched to db ProductionDB
+sh.status()
+shardingVersion
+{
+  _id: ObjectId('5f1ab38c9bb8c174625ad999'),
+  clusterId: ObjectId('5f1ab38c9bb8c174625ad888')
+}
+shards
+[
+  {
+    _id: 'rs-shard-A',
+    host: 'rs-shard-A/node-A1.internal:27011',
+    topologyTime: Timestamp({ t: 1690000001, i: 32 }),
+    replSetConfigVersion: -1
+  },
+  {
+    _id: 'rs-shard-B',
+    host: 'rs-shard-B/node-B1.internal:27012',
+    topologyTime: Timestamp({ t: 1690000001, i: 80 }),
+    replSetConfigVersion: -1
+  }
+]
+active mongoses
+[
+  {
+    '8.3.2': 1
+  }
+]
+autosplit
+{
+  'Currently enabled': 'yes'
+}
+balancer
+{
+  'Currently enabled': 'yes',
+  'Currently running': 'no',
+  'Failed balancer rounds in last 5 attempts': 0,
+  'Migration Results for the last 24 hours': 'No recent migrations'
+}
+shardedDataDistribution
+[
+  {
+    ns: 'config.system.sessions',
+    shards: [
+      {
+        shardName: 'rs-shard-A',
+        numOrphanedDocs: 0,
+        numOwnedDocuments: 16,
+        ownedSizeBytes: 1584,
+        orphanedSizeBytes: 0
+      }
+    ]
+  },
+  {
+    ns: 'ProductionDB.transactions',
+    shards: [
+      {
+        shardName: 'rs-shard-A',
+        numOrphanedDocs: 0,
+        numOwnedDocuments: 0,
+        ownedSizeBytes: 0,
+        orphanedSizeBytes: 0
+      },
+      {
+        shardName: 'rs-shard-B',
+        numOrphanedDocs: 0,
+        numOwnedDocuments: 0,
+        ownedSizeBytes: 0,
+        orphanedSizeBytes: 0
+      }
+    ]
+  }
+]
+databases
+[
+      {
+        uuid: UUID('11111111-2222-3333-4444-555555555555'),
+        timestamp: Timestamp({ t: 1690000020, i: 9 }),
+        lastMod: 1
+      }
+    },
+    collections: {
+      'ProductionDB.transactions': {
+        shardKey: {
+          account_uuid: 'hashed'
+        },
+        unique: false,
+        balancing: true,
+        allowMigrations: true,
+        chunkMetadata: [
+          {
+            shard: 'rs-shard-A',
+            nChunks: 1
+          },
+          {
+            shard: 'rs-shard-B',
+            nChunks: 1
+          }
+        ],
+        chunks: [
+          {
+            min: {
+              account_uuid: MinKey()
+            },
+            max: {
+              account_uuid: 0
+            },
+            'on shard': 'rs-shard-B',
+            'last modified': Timestamp({ t: 1, i: 0 })
+          },
+          {
+            min: {
+              account_uuid: 0
+            },
+            max: {
+              account_uuid: MaxKey()
+            },
+            'on shard': 'rs-shard-A',
+            'last modified': Timestamp({ t: 1, i: 1 })
+          }
+        ],
+        tags: []
+      }
+    }
+  }
+]
+db.transactions.getShardDistribution()
+Shard rs-shard-B at rs-shard-B/node-B1.internal:27012
+{
+  data: '0B',
+  docs: 0,
+  chunks: 1,
+  'estimated data per chunk': '0B',
+  'estimated docs per chunk': 0
+}
+Shard rs-shard-A at rs-shard-A/node-A1.internal:27011
+{
+  data: '0B',
+  docs: 0,
+  chunks: 1,
+  'estimated data per chunk': '0B',
+  'estimated docs per chunk': 0
+}
+Totals

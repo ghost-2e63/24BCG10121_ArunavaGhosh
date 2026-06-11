@@ -15,18 +15,18 @@ SOURCE insert_data.sql;
 SOURCE crud_queries.sql;
 ```
 
-#### screenshots
+#### screenshots 
 
-![schema diagram](screenshot/diagram.png)
-![mysql](screenshot/1.png)
-![mysql](screenshot/2.png)
-![mysql](screenshot/3.png)
-![mysql](screenshot/4.png)
-![mysql](screenshot/5.png)
-![mysql](screenshot/6.png)
-![mysql](screenshot/7.png)
-![mysql](screenshot/8.png)
+![schema diagram](.github/screenshot/diagram.png)
+<!-- ![mysql](.github/screenshot/1.png) -->
+<!-- ![mysql](.github/screenshot/2.png) -->
+<!-- ![mysql](.github/screenshot/3.png) -->
+<!-- ![mysql](.github/screenshot/4.png) -->
+![mysql](.github/screenshot/5.png)
+<!-- ![mysql](.github/screenshot/6.png) -->
+<!-- ![mysql](.github/screenshot/7.png) -->
+![mysql](.github/screenshot/8.png)
 
-## Disclaimer
+## disclaimer
 
 This is my coursework. Do not copy it. Submitting any part of this as your own work is academic misconduct and I will report it to my university without hesitation. The consequences are yours to deal with.
