@@ -1,0 +1,126 @@
+24BCG10121
+ARUNAVA GHOSH
+-------------
+
+1.
+db.employees.insertOne({
+    empId: 106,
+    name: "Vikram",
+    age: 29,
+    department: "Sales",
+  salary: 42000,
+    city: 'Pune',
+    experience: 2,
+    skills: ["Communication"], active: true
+})
+
+2.
+db.employees.insertMany([
+  {
+    empId: 107,
+    name: "Neha", age: 27,
+    department: "Finance", salary: 48000
+  },
+  {
+     empId: 108,
+     name: 'Amit',
+     age: 31,
+     department: "HR",
+     salary: 51000
+  }
+])
+
+3.
+db.employees.findOne({ department: "IT" })
+
+4.
+db.employees.find( {} )
+
+5.
+db.employees.find({}, { name: 1, salary: 1, _id: 0 })
+
+6.
+db.employees.find({salary: 50000})
+
+7.
+db.employees.find({ salary: { $lt: 60000 } })
+
+8.
+db.employees.find({
+    salary: { $gte: 60000 }
+})
+
+9.
+db.employees.find({ age: { $ne: 30 } })
+
+10.
+db.employees.find({
+  city: { $in: ["Chennai", 'Mumbai'] }
+})
+
+11.
+db.employees.find({ city: { $ne: "Chennai" } })
+
+12.
+db.employees.find({
+  department: 'IT',
+  salary: { $gt: 50000 }
+})
+
+13.
+db.employees.find({
+    $or: [
+      { city: "Chennai" },
+      { city: "Bangalore" }
+    ]
+})
+
+14.
+db.employees.find({
+  salary: { $not: { $gt: 60000 } }
+})
+
+15.
+db.employees.find({
+  department: { $nin: ["IT", "HR"] }
+})
+
+16.
+db.employees.find({ experience: { $exists: true } })
+
+17.
+db.employees.find({ salary: { $type: 'int' } })
+
+18.
+db.employees.find({ skills: "MongoDB" })
+
+19.
+db.employees.find({
+  skills: { $all: ["MongoDB", "AWS"] }
+})
+
+20.
+db.employees.find({ skills: { $size: 3 } })
+
+21.
+db.employees.find({
+    skills: { $elemMatch: { $eq: "Java" } }
+})
+
+22.
+db.employees.find().sort({ salary: -1 })
+
+23.
+db.employees.find().sort({ salary: -1 }).limit(3)
+
+24.
+db.employees.updateOne(
+  { empId: 101 },
+  { $inc: { salary: 5000 } }
+)
+
+25.
+db.employees.updateMany(
+  { department: "IT" },
+  { $mul: { salary: 1.1 } }
+)
